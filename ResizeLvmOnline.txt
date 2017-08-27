@@ -1,0 +1,24 @@
+--Review the block device tree
+lsblk
+--Resize the disk partition table
+fdisk /dev/vda2
+	(p)rint partition table,
+	(d)elete partition,
+	(n)ew primary partition,
+	(t)ype change to 8e,
+	(p)rint partition table and verify,
+	(w)rite partition table
+--Request the OS to acknowledge partition table changes
+partprobe /dev/vda2
+--Request LVM2 to resize physical volume
+pvresize -v /dev/vda2
+--Review the free partition space
+pvdisplay
+--Extend the logical volume
+lvextend -L+20G /dev/centos/root
+--Review the free logical volume space
+lvdisplay
+--Resize the filesystem
+xfs_growfs /dev/centos/root
+--Review the filesystem space
+df -h
