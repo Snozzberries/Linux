@@ -1,0 +1,18 @@
+--List domain memory configuration
+virsh dumpxml DOMAIN | grep "emory uni"
+
+--Memory can be hot added up to the value set in the <memory> attribute
+
+--Hot add memory to guest (2G=2GB)
+virsh setmem DOMAIN 2G --live
+
+--Update guest XML configuration (2G=2GB)
+virsh setmem DOMAIN 2G
+
+--If <memory> needs to be increased the guest must be powered down
+virsh stop DOMAIN
+--Set guest's maximum memory (4G=4GB)
+virsh setmaxmem DOMAIN 4G
+--Start the guest
+virsh start DOMAIN
+--Proceed with using "setmem" command
